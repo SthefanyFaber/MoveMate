@@ -1,0 +1,47 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveMate - Nutrição e Exercício</title>
+
+    <!-- Carregar arquivos estáticos, como o CSS -->
+    {% load static %}
+    <link href="{% static 'style.css' %}" rel="stylesheet">  <!-- Link para o CSS que você já tem -->
+</head>
+
+<body>
+
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">
+            <h1>MoveMate</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Início</a></li>
+                <li><a href="{% url 'add_post' %}">Adicionar Post</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'register' %}">Registrar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Conteúdo principal da página -->
+    <main>
+        {% block content %}
+        <!-- O conteúdo da página vai ser injetado aqui -->
+        {% endblock %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2024 MoveMate. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+
+</html>

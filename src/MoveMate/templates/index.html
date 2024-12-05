@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveMate - Nutrição e Exercício</title>
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>MoveMate</h1>
+    <p>Compartilhe sua jornada de saúde, conecte-se com amigos e inspire-se para viver de forma mais saudável!</p>
+</header>
+
+<section class="tips-section">
+    <h2>Dicas de Nutrição e Exercício</h2>
+    <ul>
+        <li>💧 Beba pelo menos 2 litros de água por dia para manter seu corpo hidratado!</li>
+        <li>🥗 Invista em refeições balanceadas com proteínas, vegetais e carboidratos integrais.</li>
+        <li>🏃‍♀️ Comece seu dia com uma caminhada de 15 minutos para ativar o metabolismo.</li>
+        <li>🍌 Consuma alimentos ricos em potássio como bananas para ajudar na recuperação muscular.</li>
+        <li>💪 A cada 30 minutos de atividade, faça uma pausa de 5 minutos para alongar os músculos.</li>
+    </ul>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'add_post' %}" class="cta-button">Criar Novo Post</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="cta-button">Faça login para começar seu treino!</a>
+    {% endif %}
+</section>
+
+<section class="social-feed">
+    {% for post in posts %}
+        <div class="post">
+            <h3>{{ post.usuario.username }}</h3>
+            <p>{{ post.conteudo }}</p>
+            {% if post.imagem_url %}
+                <img src="{{ post.imagem_url }}" class="imagem">
+            {% endif %}
+            <div>
+                <form action="{% url 'curtir' post.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">❤️ Curtir ({{ post.curtidas.count }})</button>
+                </form>
+            </div>
+            <div>
+                <h4>Comentários:</h4>
+                {% for comentario in post.comentarios.all %}
+                    <p><strong>{{ comentario.usuario.username }}:</strong> {{ comentario.texto }}</p>
+                {% endfor %}
+                <form action="{% url 'comentar' post.id %}" method="POST">
+                    {% csrf_token %}
+                    <textarea name="texto" placeholder="Adicione um comentário"></textarea>
+                    <button type="submit">💬 Comentar</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</section>
+
+<footer>
+    <p>&copy; 2024 MoveMate. Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>

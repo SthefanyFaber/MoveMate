@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MoveMate</title>
+    {% load static %}
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>MoveMate</h1>
+    <p>Entre para compartilhar sua jornada de saúde e conectar-se com seus amigos!</p>
+</header>
+
+<main>
+    <section class="login-form-section">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }} 
+            <button type="submit" class="cta-button">Entrar</button>
+        </form>
+
+        {% if form.errors %}
+            <div class="error-message">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <p>Não tem uma conta? <a href="{% url 'register' %}">Crie uma agora!</a></p> 
+        <p>Ou <a href="{% url 'index' %}">volte para a página inicial</a>.</p>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 MoveMate. Todos os direitos reservados.</p>
+</footer>
+
+</body>
+</html>
